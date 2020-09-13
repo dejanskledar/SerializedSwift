@@ -27,7 +27,7 @@ public protocol SerializableDecodable: Decodable {
 
 extension SerializableDecodable {
 
-    func decode(from decoder: Decoder) throws {
+    public func decode(from decoder: Decoder) throws {
         // Get the container keyed by the SerializedCodingKeys defined by the propertyWrapper @Serialized
         let container = try decoder.container(keyedBy: SerializedCodingKeys.self)
         
@@ -53,7 +53,7 @@ extension SerializableDecodable {
         } while mirror != nil
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         self.init()
         try decode(from: decoder)
     }
