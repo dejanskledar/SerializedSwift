@@ -22,8 +22,8 @@ public protocol SerializableEncodable: Encodable {}
 //
 //
 
-extension SerializableEncodable {
-    public func encode(to encoder: Encoder) throws {
+public extension SerializableEncodable {
+    func encode(to encoder: Encoder) throws {
         // Get the container keyed by the SerializedCodingKeys defined by the propertyWrapper @Serialized
         var container = encoder.container(keyedBy: SerializedCodingKeys.self)
         
