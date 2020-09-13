@@ -11,7 +11,7 @@ public typealias Serializable = SerializableEncodable & SerializableDecodable
 
 // Default value is by default nil. Can be used directly without arguments
 @propertyWrapper
-final class Serialized<T> {
+public final class Serialized<T> {
     let key: String?
     let alternateKey: String?
     var value: T?
