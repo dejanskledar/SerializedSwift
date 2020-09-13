@@ -16,7 +16,7 @@ public final class Serialized<T> {
     let alternateKey: String?
     var value: T?
     
-    var wrappedValue: T? {
+    public var wrappedValue: T? {
         get {
             return value
         } set {
@@ -24,13 +24,13 @@ public final class Serialized<T> {
         }
     }
     
-    init(_ key: String? = nil, alternateKey: String? = nil, default value: T? = nil) {
+    public init(_ key: String? = nil, alternateKey: String? = nil, default value: T? = nil) {
         self.key = key
         self.alternateKey = alternateKey
         self.value = value
     }
     
-    init(default value: T? = nil) {
+    public init(default value: T? = nil) {
         self.key = nil
         self.alternateKey = nil
         self.value = value
