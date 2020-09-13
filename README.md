@@ -16,7 +16,10 @@
 ## Installation
 
 ### Codoapods
-// TODO
+Add this line to your `Podfile`:
+```
+pod 'SerializedSwift'
+```
 
 ### Swift Package manager
 If you are using SPM for your dependency manager, add this to the dependencies in your `Package.swift` file:
