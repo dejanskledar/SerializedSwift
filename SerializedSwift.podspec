@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "SerializedSwift"
-  spec.version      = "0.0.2"
+  spec.version      = "0.0.3"
   spec.summary      = "A GSON inspired JSON decoding strategy in Swift using @propertyWrappers."
 
   # This description is used to generate tags and improve search results.
