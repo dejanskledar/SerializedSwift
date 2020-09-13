@@ -35,7 +35,7 @@ public final class SerializedRequiredTransformable<T: RequiredTransformable> {
 }
 
 extension SerializedRequiredTransformable: DecodableProperty where T.From: Decodable {
-    func decodeValue(from container: DecodeContainer, propertyName: String) throws {
+    public func decodeValue(from container: DecodeContainer, propertyName: String) throws {
         let codingKey = SerializedCodingKeys(key: key ?? propertyName)
         
         if let value = try? container.decodeIfPresent(T.From.self, forKey: codingKey) {
@@ -51,7 +51,7 @@ extension SerializedRequiredTransformable: DecodableProperty where T.From: Decod
 }
 
 extension SerializedRequiredTransformable: EncodableProperty where T.From: Encodable {
-    func encodeValue(from container: inout EncodeContainer, propertyName: String) throws {
+    public func encodeValue(from container: inout EncodeContainer, propertyName: String) throws {
         let codingKey = SerializedCodingKeys(key: key ?? propertyName)
         try container.encode(T.transformToJson(from: value), forKey: codingKey)
     }

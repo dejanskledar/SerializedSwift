@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol DecodableProperty {
+public protocol DecodableProperty {
     typealias DecodeContainer = KeyedDecodingContainer<SerializedCodingKeys>
     
     func decodeValue(from container: DecodeContainer, propertyName: String) throws

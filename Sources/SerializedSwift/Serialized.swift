@@ -39,7 +39,7 @@ public final class Serialized<T> {
 
 // Encodable support
 extension Serialized: EncodableProperty where T: Encodable {
-    func encodeValue(from container: inout EncodeContainer, propertyName: String) throws {
+    public func encodeValue(from container: inout EncodeContainer, propertyName: String) throws {
         let codingKey = SerializedCodingKeys(key: key ?? propertyName)
         try container.encodeIfPresent(wrappedValue, forKey: codingKey)
     }
@@ -47,7 +47,7 @@ extension Serialized: EncodableProperty where T: Encodable {
 
 // Decodable support
 extension Serialized: DecodableProperty where T: Decodable {
-    func decodeValue(from container: DecodeContainer, propertyName: String) throws {
+    public func decodeValue(from container: DecodeContainer, propertyName: String) throws {
         let codingKey = SerializedCodingKeys(key: key ?? propertyName)
 
         if let value = try? container.decodeIfPresent(T.self, forKey: codingKey) {

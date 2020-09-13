@@ -7,19 +7,19 @@
 
 import Foundation
 
-struct SerializedCodingKeys: CodingKey {
-    var stringValue: String
-    var intValue: Int?
+public struct SerializedCodingKeys: CodingKey {
+    public var stringValue: String
+    public var intValue: Int?
 
-    init(key: String) {
+    public init(key: String) {
         stringValue = key
     }
 
-    init?(stringValue: String) {
+    public init?(stringValue: String) {
         self.stringValue = stringValue
     }
 
-    init?(intValue: Int) {
+    public init?(intValue: Int) {
         self.intValue = intValue
         self.stringValue = String(intValue)
     }
