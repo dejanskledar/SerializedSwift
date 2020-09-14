@@ -7,18 +7,20 @@
 
 import Foundation
 
-public typealias Transformable = TransformableFromJSOn & TransformableToJSON
+public typealias Transformable = TransformableFromJSON & TransformableToJSON
 
-public protocol TransformableFromJSOn {
+/// TransformableFromJSON protocol for JSON Decoding
+public protocol TransformableFromJSON {
     associatedtype From: Any
     associatedtype To: Any
     
-    static func transformFromJSON(from value: From) -> To?
+    static func transformFromJSON(value: From?) -> To?
 }
 
+// TransformableToJSON for JSON Encoding
 public protocol TransformableToJSON {
     associatedtype From: Any
     associatedtype To: Any
     
-    static func transformToJson(from value: To) -> From?
+    static func transformToJSON(value: To?) -> From?
 }

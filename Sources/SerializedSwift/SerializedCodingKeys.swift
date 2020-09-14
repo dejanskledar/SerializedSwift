@@ -7,6 +7,12 @@
 
 import Foundation
 
+///
+///
+/// Dynamic Coding Key Object
+///
+///
+
 public struct SerializedCodingKeys: CodingKey {
     public var stringValue: String
     public var intValue: Int?
@@ -14,7 +20,7 @@ public struct SerializedCodingKeys: CodingKey {
     public init(key: String) {
         stringValue = key
     }
-
+    
     public init?(stringValue: String) {
         self.stringValue = stringValue
     }

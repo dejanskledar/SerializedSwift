@@ -9,13 +9,13 @@ final class SerializedBasicSwiftTests: XCTestCase {
             var surname: String?
             
             @Serialized("home_address")
-            var address: String?
+            var address: String
             
             @Serialized("phone_number")
             var phoneNumber: String?
             
-            @Serialized("token", alternateKey: "authorization")
-            var token: String?
+            @Serialized(alternateKey: "authorization")
+            var token: String
             
             required init() {}
         }
@@ -66,6 +66,9 @@ final class SerializedBasicSwiftTests: XCTestCase {
             @Serialized("bar")
             var bar: String?
             
+            @Serialized
+            var boo: String?
+            
             required init() {}
         }
         
@@ -86,12 +89,14 @@ final class SerializedBasicSwiftTests: XCTestCase {
             
             XCTAssertEqual(object.foo, "Foo is in superclass!")
             XCTAssertEqual(object.bar, "Bar is in subclass!")
+            XCTAssertEqual(object.boo, nil)
             
             let json = try JSONEncoder().encode(object)
             let newObject = try JSONDecoder().decode(Bar.self, from: json)
             
             XCTAssertEqual(newObject.foo, "Foo is in superclass!")
             XCTAssertEqual(newObject.bar, "Bar is in subclass!")
+            XCTAssertEqual(newObject.boo, nil)
             
         } catch {
             XCTFail()
@@ -113,13 +118,14 @@ final class SerializedBasicSwiftTests: XCTestCase {
             @Serialized
             var bar: Bar?
 
-            @SerializedRequired(default: [])
+            @Serialized(default: [])
             var allBars: [Foo]
+            
+            @Serialized
+            var sumBars: [Foo]?
             
             required init() {}
         }
-        
-        
         
         let json = """
           {
@@ -141,6 +147,7 @@ final class SerializedBasicSwiftTests: XCTestCase {
             XCTAssertEqual(object.foo, "Basic foo!")
             XCTAssertEqual(object.bar?.fooBar, "Bar for foo!")
             XCTAssertTrue(object.allBars.isEmpty)
+            XCTAssertNil(object.sumBars)
             
             let json = try JSONEncoder().encode(object)
             let newObject = try JSONDecoder().decode(Foo.self, from: json)
@@ -148,6 +155,7 @@ final class SerializedBasicSwiftTests: XCTestCase {
             XCTAssertEqual(newObject.foo, "Basic foo!")
             XCTAssertEqual(newObject.bar?.fooBar, "Bar for foo!")
             XCTAssertTrue(newObject.allBars.isEmpty)
+            XCTAssertNil(newObject.sumBars)
             
         } catch {
             XCTFail()
@@ -159,15 +167,19 @@ final class SerializedBasicSwiftTests: XCTestCase {
             @Serialized(alternateKey: "full_name")
             var name: String?
             
-            @Serialized(alternateKey: "town")
+            @Serialized(alternateKey: "town", default: "")
             var post: String?
+            
+            @Serialized("points", alternateKey: "streak", default: 0)
+            var score: Int
             
             required init() {}
         }
         let json = """
           {
               "full_name": "Foo Bar",
-              "town": "Maribor"
+              "town": "Maribor",
+              "streak": 10
           }
           """
         
@@ -181,12 +193,14 @@ final class SerializedBasicSwiftTests: XCTestCase {
             
             XCTAssertEqual(object.name, "Foo Bar")
             XCTAssertEqual(object.post, "Maribor")
+            XCTAssertEqual(object.score, 10)
             
             let json = try JSONEncoder().encode(object)
             let newObject = try JSONDecoder().decode(User.self, from: json)
             
             XCTAssertEqual(newObject.name, "Foo Bar")
             XCTAssertEqual(newObject.post, "Maribor")
+            XCTAssertEqual(newObject.score, 10)
             
         } catch {
             XCTFail()

@@ -7,6 +7,12 @@
 
 import Foundation
 
+///
+///
+/// Encodable property protocol implemented in Serialized where Wrapped Value is Encodable
+///
+///
+
 public protocol EncodableProperty {
     typealias EncodeContainer = KeyedEncodingContainer<SerializedCodingKeys>
 

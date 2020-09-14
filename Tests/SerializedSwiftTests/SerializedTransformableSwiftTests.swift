@@ -15,12 +15,12 @@ final class SerializedTransformableSwiftTests: XCTestCase {
     // Custom transforming
     //
     class StringToNumber: Transformable {
-        static func transformFromJSON(from value: String) -> Int? {
-            return Int(value)
+        static func transformFromJSON(value: String?) -> Int? {
+            return Int(value ?? "")
         }
         
-        static func transformToJson(from value: Int) -> String? {
-            return value.description
+        static func transformToJSON(value: Int?) -> String? {
+            return value?.description
         }
     }
     
@@ -74,7 +74,7 @@ final class SerializedTransformableSwiftTests: XCTestCase {
             @SerializedTransformable<StringToNumber>("weight")
             var weight: Int?
             
-            @SerializedTransformable<StringToNumber>("height", default: 180)
+            @SerializedTransformable<StringToNumber>("height")
             var height: Int?
             
             required init() {}
@@ -96,11 +96,13 @@ final class SerializedTransformableSwiftTests: XCTestCase {
             let user = try JSONDecoder().decode(User.self, from: data)
             
             XCTAssertEqual(user.age, 22)
+            XCTAssertEqual(user.height, nil)
             
             let json = try JSONEncoder().encode(user)
             let newUser = try JSONDecoder().decode(User.self, from: json)
             
             XCTAssertEqual(newUser.age, 22)
+            XCTAssertEqual(user.height, nil)
             
         } catch {
             XCTFail()

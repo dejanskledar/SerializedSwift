@@ -23,6 +23,10 @@ public protocol SerializableEncodable: Encodable {}
 //
 
 public extension SerializableEncodable {
+    
+    /// Encodes all properties wrapped with `SerializableEncodable` (or `Serialized`)
+    /// - Parameter encoder: The default encoder
+    /// - Throws: Throws JSON Encoding error
     func encode(to encoder: Encoder) throws {
         // Get the container keyed by the SerializedCodingKeys defined by the propertyWrapper @Serialized
         var container = encoder.container(keyedBy: SerializedCodingKeys.self)

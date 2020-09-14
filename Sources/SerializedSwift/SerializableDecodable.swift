@@ -26,7 +26,10 @@ public protocol SerializableDecodable: Decodable {
 //
 
 public extension SerializableDecodable {
-
+    
+    /// Main decoding logic. Decodes all properties marked with @Serialized
+    /// - Parameter decoder: The JSON Decoder
+    /// - Throws: Throws JSON Decoding error if present
     func decode(from decoder: Decoder) throws {
         // Get the container keyed by the SerializedCodingKeys defined by the propertyWrapper @Serialized
         let container = try decoder.container(keyedBy: SerializedCodingKeys.self)

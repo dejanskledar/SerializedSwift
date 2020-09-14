@@ -1,6 +1,7 @@
 # SerializedSwift
 
 [![Swift Package Manager](https://img.shields.io/badge/swift%20package%20manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+[![CocoaPods](https://img.shields.io/cocoapods/v/SerializedSwift.svg)](https://github.com/dejanskledar/SerializedSwift)
 ![Platforms](https://img.shields.io/static/v1?label=Platforms&message=iOS%20|%20macOS%20|%20tvOS%20|%20watchOS%20|%20Linux&color=brightgreen)
 
 ## A GSON inspired JSON decoding strategy in Swift using @propertyWrappers.
@@ -12,6 +13,22 @@
 - Custom Transformer classes
 - Alternative coding keys
 - Default values if JSON key is missing
+
+```swift
+struct Foo: Serializable {
+    @Serialized
+    var bar: String
+    
+    @Serialized("globalId")
+    var id: String?
+    
+    @Serialized(alternateKey: "mobileNumber")
+    var phoneNumber: String?
+    
+    @Serialized(default: 0)
+    var score: Int
+}
+```
 
 ## Installation
 
@@ -40,7 +57,7 @@ dependencies: [
 class User: Serializable {
 
     @Serialized
-    var name: String?
+    var name: String
     
     @Serialized("globalId")
     var id: String?
@@ -48,7 +65,7 @@ class User: Serializable {
     @Serialized(alternateKey: "mobileNumber")
     var phoneNumber: String?
     
-    @SerializedRequired(default: 0)
+    @Serialized(default: 0)
     var score: Int
     
     required init() {}
@@ -62,7 +79,7 @@ class PowerUser: User {
     @Serialized
     var powerName: String?
 
-    @SerializedRequired(default: 0)
+    @Serialized(default: 0)
     var credit: Int
 }
 ```
@@ -74,7 +91,7 @@ class ChatRoom: Serializable {
     @Serialized
     var admin: PowerUser?
 
-    @SerializedRequired(default: [])
+    @Serialized(default: [])
     var users: [User]
 }
 ```
@@ -83,14 +100,14 @@ class ChatRoom: Serializable {
 You can create own custom Transformable classes, for custom transformation logic.
 ```swift
 class DateTransformer: Transformable {
-    static func transformFromJSON(from value: String) -> Date? {
+    static func transformFromJSON(from value: String?) -> Date? {
         let formatter = DateFormatter()
-        return formatter.date(from: value)
+        return formatter.date(from: value ?? "")
     }
     
-    static func transformToJson(from value: Date) -> String? {
+    static func transformToJson(from value: Date?) -> String? {
         let formatter = DateFormatter()
-        return formatter.string(from: value)
+        return formatter.string(from: value ?? Date())
     }
 }
 
@@ -100,9 +117,6 @@ struct User: Serializable {
 }
 ```
 
-**`RequiredTransformable`** for non-optional properties:
-
-
 ## Features
 ###  `Serializable`
    - typealias-ed from `SerializableEncodable` & `SerializableDecodable`
@@ -110,41 +124,32 @@ struct User: Serializable {
    - Use this protocol for your classes and structures in the combination with the property wrappers belos
    
 ### `Serialized`
-- Standard serialization propertyWrappers
-- Used for wrapping an optional property.
+- Serialization propertyWrapper for all properties, optional and non-optionals!
 - Custom decoding Key
 - By default using the propertyName as a Decoding Key
 - Alternative Decoding Key support
-- Optional Default value (if the key is missing). By default, the Default value is `nil`
+- Optional Default value (if the key is missing). By default, the Default value is `nil`. For non-optionals, default value is recommended, to avoid crashes
 
 ```swift
-@Serialized("primaryKey", alternativeKey: "backupKey", default: "")
+@Serialized("mainKey", alternativeKey: "backupKey", default: "")
 var key: String?
-```
-
-### `SerializedRequired`
-- Similar to `Serialized`, but for wrapping a non-optional property.
-- Will crash while accessing the property, if the key was missing in the JSON, and no `default` value was set
-
-```swift
-@SerializedRequired("primaryKey", alternativeKey: "backupKey", default: "")
-var key: String
 ```
 
 ### `SerializedTransformable`
 - Custom transforming property wrapper
 - Create own Transformable classes
+- Transforming Decodable objects to own types, like custom String Date format to native Date
 
 ```swift
  class DateTransformer: Transformable {
-     static func transformFromJSON(from value: String) -> Date? {
+     static func transformFromJSON(from value: String?) -> Date? {
          let formatter = DateFormatter()
-         return formatter.date(from: value)
+         return formatter.date(from: value ?? "")
      }
      
-     static func transformToJson(from value: Date) -> String? {
+     static func transformToJson(from value: Date?) -> String? {
          let formatter = DateFormatter()
-         return formatter.string(from: value)
+         return formatter.string(from: value ?? "")
      }
  }
 
@@ -152,29 +157,6 @@ var key: String
  struct User: Serializable {
      @SerializedTransformable<DateTransformer>
      var birthDate: Date?
- } 
-```
-
-### `SerializedRequiredTransformable`
-- Similar to `SerializedTransformable` but working with non-optionals
-
-```swift
- class DateTransformer: RequiredTransformable {
-     static func transformFromJSON(from value: String?) -> Date {
-         let formatter = DateFormatter()
-         return formatter.date(from: value)
-     }
-     
-     static func transformToJson(from value: Date?) -> String {
-         let formatter = DateFormatter()
-         return formatter.string(from: value)
-     }
- }
-
- // Usage of `SerializedRequiredTransformable` with non-optional Date
- struct User: Serializable {
-     @SerializedRequiredTransformable<DateTransformer>
-     var birthDate: Date
  } 
 ```
 
