@@ -6,4 +6,5 @@ Carthage/Build
 
 # Swift package manager
 .build/
+.swiftpm/
 Packages/
