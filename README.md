@@ -121,7 +121,7 @@ struct User: Serializable {
 ###  `Serializable`
    - typealias-ed from `SerializableEncodable` & `SerializableDecodable`
    - Custom decoding and encoding using propertyWrappers (listed below)
-   - Use this protocol for your classes and structures in the combination with the property wrappers belos
+   - Use this protocol for your classes and structures in the combination with the property wrappers below
    
 ### `Serialized`
 - Serialization propertyWrapper for all properties, optional and non-optionals!
@@ -162,4 +162,4 @@ var key: String?
 
 ### Contribute
 
-This is only a tip of the iceberg of what can one achieve using Property Wrappers and how se can improve Decoding and Encoding JSON in Swift. Feel free to colaborate. 
+This is only a tip of the iceberg of what can one achieve using Property Wrappers and how we can improve Decoding and Encoding JSON in Swift. Feel free to colaborate. 
