@@ -42,7 +42,7 @@ pod 'SerializedSwift'
 If you are using SPM for your dependency manager, add this to the dependencies in your `Package.swift` file:
 ```
 dependencies: [
-    .package(url: "https://github.com/dejanskledar/SerializableSwift.git")
+    .package(url: "https://github.com/dejanskledar/SerializedSwift.git")
 ]
 ````
 
