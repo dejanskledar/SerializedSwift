@@ -54,8 +54,9 @@ extension StrictSerializedTransformable: DecodableProperty where T.From: Decodab
             self.wrappedValue = T.transformFromJSON(value: value)
         } else if let altKey = alternateKey {
             let altCodingKey = SerializedCodingKeys(key: altKey)
-            let value = try? container.decodeIfPresent(T.From.self, forKey: altCodingKey)
-            self.wrappedValue = T.transformFromJSON(value: value)
+            if let value = try? container.decodeIfPresent(T.From.self, forKey: altCodingKey) {
+                self.wrappedValue = T.transformFromJSON(value: value)
+            }
         }
     }
 }
