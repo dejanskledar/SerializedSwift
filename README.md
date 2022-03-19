@@ -160,6 +160,27 @@ var key: String?
  } 
 ```
 
+### `StrictSerializedTransformable`
+- Like `SerializedTransformable` but for non-optional types
+
+```swift
+ class IntToStringTransformer: StrictTransformable {
+    static func transformFromJSON(value: Int) -> String {
+        return String(value)
+    }
+    
+    static func transformToJSON(value: String) -> Int {
+        return Int(value) ?? 0
+    }
+ }
+
+ // Usage of `StrictSerializedTransformable`
+ struct User: Serializable {
+     @StrictSerializedTransformable<IntToStringTransformer>
+     var id: String
+ } 
+```
+
 ### Contribute
 
 This is only a tip of the iceberg of what can one achieve using Property Wrappers and how we can improve Decoding and Encoding JSON in Swift. Feel free to colaborate. 
